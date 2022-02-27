@@ -1,0 +1,170 @@
+
+
+<section class="">
+  <div class="" *ngIf="loading">
+    <app-loading></app-loading>
+  </div>
+  <div class="container">
+    <!-- <div class="search_youtube row justify-content-center" *ngIf="searchDiv"> -->
+    <div class="search_youtube row justify-content-center">
+
+      <form   [formGroup]="searchForm" (ngSubmit)="onSubmit(searchForm)">
+      <h1 class="text-center mb-4">Are you ready for the statistics?</h1>
+      <div class="form-group row">
+        <div class="col-md-8">
+
+          <input class="form-control" formControlName="search" type="text" name="" placeholder="Search" >
+
+        </div>
+        <div class="col-md-4">
+
+          <button  [disabled]="searchForm.invalid" class="btn btn-danger w-100">
+            Calculate
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+
+          <div *ngIf="searchForm.controls['search'].touched && searchForm.controls['search'].errors != null" class="alert mt-2 alert-danger text-left" role="alert">
+            <p class="mb-0" *ngIf="searchForm.controls['search'].errors['required']">Please enter the youtube url to calculate the statistics</p>
+            <p class="mb-0" *ngIf="searchForm.controls['search'].errors['pattern']">Please enter the youtube url to calculate the statistics</p>
+          </div>
+        </div>
+
+      </div>
+    </form>
+    <!-- <div class="row">
+      <div class="col-lg-4" *ngFor="let video of savedDataFromYoutube">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{video.title}}</h5>
+            <p class="card-text">{{video.channel_title}}</p>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    </div>
+    <!-- <article *ngIf="!searchDiv">
+      <div class="data_youtube" *ngIf="items.length > 0">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="row justify-content-center order-1 my-3"*ngIf="channelDisplayed">
+              <div class="col-12">
+
+
+                <div class="alert alert-primary text-center" role="alert">
+                  Channel statistics
+
+                </div>
+                <div class="card border-0">
+                  <div class="card-header">
+                    Channel photo
+                  </div>
+                <img src="{{YoutubeChannelSnippet?.thumbnails.high.url}}" class="photo_thumb" alt="">
+
+
+
+                </div>
+                <div class="card" >
+
+                  <div class="card-header">
+                    Snippet
+                  </div>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Title: {{YoutubeChannelSnippet?.title}}</li>
+                    <li class="list-group-item">Channel title: {{YoutubeChannelSnippet?.channelTitle}}</li>
+                    <li class="list-group-item">Description: {{YoutubeChannelSnippet?.description | slice:0:250}}</li>
+                    <li class="list-group-item">Published at: {{YoutubeChannelSnippet?.publishedAt | date:'medium'}}</li>
+                  </ul>
+                  <div class="card-header">
+                    Statistics
+                  </div>
+                  <div class="btn-group" role="group" aria-label="Basic example">
+                    <div class="btn btn-light">Views ({{YoutubeChannelStatistics?.viewCount}})</div>
+                    <div class="btn btn-light">Subscriptions ({{YoutubeChannelStatistics?.subscriberCount}})</div>
+                    <div class="btn btn-light">Videos ({{YoutubeChannelStatistics?.videoCount}})</div>
+                  </div>
+
+
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="row order-2  my-3"*ngIf="statisticsDisplayed">
+              <div class="col-12">
+
+                    <div class="alert alert-primary text-center" role="alert">
+                      Video statistics
+                    </div>
+                    <div class="card border-0">
+                      <div class="card-header">
+                        Thumbnail
+                      </div>
+                    <img src="{{YoutubeSnippet?.thumbnails.high.url}}" class="photo_thumb" alt="">
+
+
+
+                    </div>
+                    <div class="card" >
+
+                      <div class="card-header">
+                        Snippet
+                      </div>
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Title: {{YoutubeSnippet?.title}}</li>
+                        <li class="list-group-item">Channel title: {{YoutubeSnippet?.channelTitle}}</li>
+                        <li class="list-group-item">Video Tags: {{YoutubeSnippet?.tags}} ({{YoutubeSnippet?.tags?.length}})</li>
+                        <li class="list-group-item">Description: {{YoutubeSnippet?.description | slice:0:250}}</li>
+                        <li class="list-group-item">Published at: {{YoutubeSnippet?.publishedAt | date:'medium'}}</li>
+                      </ul>
+
+                      <div class="card-header">
+                        Statistics
+                      </div>
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <div class="btn btn-light">Views ({{YoutubeStatistics?.viewCount}})</div>
+                        <div class="btn btn-light">Likes ({{YoutubeStatistics?.likeCount}})</div>
+                        <div class="btn btn-light">favorite ({{YoutubeStatistics?.favoriteCount}})</div>
+                        <div class="btn btn-light">Comments ({{YoutubeStatistics?.commentCount}})</div>
+                      </div>
+                    </div>
+                    <div class="" [innerHTML]="youtubePlayer?.embedHtml"></div>
+
+              </div>
+
+
+              <div class="col-12">
+                <form #saveYoutubeApi="ngForm" (ngSubmit)="onSave(saveYoutubeApi)">
+                  <input type="hidden" ngModel="{{YoutubeSnippet?.title}}" name="title" id="title" value="aaaa">
+                  <input type="hidden" ngModel="{{YoutubeSnippet?.channelTitle}}" name="channel_title" id="channel_title">
+                  <input type="hidden" ngModel="{{YoutubeSnippet?.tags}}" name="video_tags" id="video_tags">
+                  <input type="hidden" ngModel="{{YoutubeSnippet?.publishedAt}}" name="published_at" id="published_at">
+                  <input type="hidden" ngModel="{{YoutubeStatistics?.viewCount}}" name="views_count" id="views_count">
+                  <input type="hidden" ngModel="{{YoutubeStatistics?.likeCount}}" name="likes_count" id="likes_count">
+                  <input type="hidden" ngModel="{{YoutubeStatistics?.favoriteCount}}" name="favorite_count" id="favorite_count">
+                  <input type="hidden" ngModel="{{YoutubeStatistics?.commentCount}}" name="comments_count" id="comments_count">
+                  <button type="submit" class="btn btn-success">Save</button>
+                </form>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+      </div>
+      <div class="data_notavailable" *ngIf="items.length === 0">
+        <h2 class="text-center">Please check the link you entered</h2>
+      </div>
+    </article> -->
+  </div>
+</section>

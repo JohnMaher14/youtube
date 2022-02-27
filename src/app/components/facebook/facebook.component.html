@@ -1,0 +1,19 @@
+<div class="container">
+
+  <form   [formGroup]="searchForm" (ngSubmit)="onSubmit(searchForm)">
+    <div class="form-group row">
+      <div class="col-md-8">
+
+        <input class="form-control" formControlName="search" type="text" name="" placeholder="Search" >
+
+      </div>
+      <div class="col-md-4">
+
+        <button [disabled]="searchForm.invalid" class="btn btn-danger w-100">
+          Search
+        </button>
+      </div>
+    </div>
+  </form>
+
+</div>
